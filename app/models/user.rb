@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_many :microposts, dependent: :destroy
   attr_accessor :remember_token, :activation_token, :reset_token
 
   validates :name, presence: true, length: {maximum: Settings.max_length_name}
@@ -27,6 +28,10 @@ class User < ApplicationRecord
     def new_token
       SecureRandom.urlsafe_base64
     end
+  end
+
+  def feed
+    microposts
   end
 
   def remember
